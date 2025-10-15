@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mohamed Atallah — Graphic Designer</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      --bg:#07080a;
+      --card:#0f1418;
+      --muted:#9aa2a8;
+      --accent:#ffd166;
+      --text:#e6eef3;
+      --glass: rgba(255,255,255,0.03);
+    }
+    html,body{
+      height:100%;
+      background: linear-gradient(180deg, var(--bg) 0%, #030405 200%);
+      color:var(--text);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      scroll-behavior:smooth;
+    }
+
+    /* NAV */
+    .navbar{
+      backdrop-filter: blur(6px);
+      background: rgba(10,12,14,0.65);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .nav-link{ color:var(--muted) !important; }
+    .nav-link.active, .nav-link:hover { color:var(--text) !important; }
+
+    /* HERO */
+    .hero{
+      min-height:74vh;
+      display:flex;
+      align-items:center;
+      padding-top:4.5rem;
+    }
+    .title{ font-size:clamp(2rem,4.6vw,3.6rem); font-weight:700; }
+    .lead{ color:var(--muted); font-size:1.05rem; }
+
+    /* Section card glass */
+    .section-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      padding:1.6rem;
+      border-radius:14px;
+    }
+
+    /* About */
+    .about p{ color:var(--muted); line-height:1.6; }
+
+    /* Skills */
+    .skill{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+      border-radius:12px;
+      padding:1rem;
+      text-align:center;
+      transition: transform .18s, box-shadow .18s;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .skill:hover{ transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+    .skill .fa-2x{ color:var(--accent); margin-bottom:.5rem; }
+
+    /* Portfolio grid - big images, no modal */
+    .portfolio-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap:1rem;
+    }
+    .portfolio-item{
+      position:relative;
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.03);
+      background:#060708;
+      transition: transform .3s ease, box-shadow .3s;
+    }
+    .portfolio-item:hover{
+      transform: translateY(-6px);
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
+    }
+    .portfolio-item img{
+      width:100%;
+      height:auto;
+      display:block;
+      object-fit:cover;
+      transition: transform .4s ease;
+    }
+    .portfolio-item:hover img{
+      transform: scale(1.05);
+    }
+    .project-meta{
+      position:absolute;
+      left:10px;
+      bottom:10px;
+      background: rgba(0,0,0,0.45);
+      color: var(--text);
+      padding:6px 10px;
+      border-radius:8px;
+      font-size:.9rem;
+    }
+
+    /* Contact icons */
+    .social-icons a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:46px; height:46px; border-radius:10px; margin-right:.5rem;
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.02);
+      color:var(--text);
+      transition: transform .15s, box-shadow .2s;
+    }
+    .social-icons a:hover{ transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+
+    /* Profile image */
+    .profile-card{
+      border-radius:12px; display:flex; align-items:center; justify-content:center;
+      padding:1rem; border:1px solid rgba(255,255,255,0.03);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+    }
+    .profile-img{ max-width:240px; width:100%; height:auto; display:block; background:transparent; border-radius:10px; }
+
+    /* Back to top */
+    .back-to-top{
+      position:fixed; right:20px; bottom:28px; z-index:999;
+      width:48px; height:48px; border-radius:10px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.04);
+      color:var(--text); cursor:pointer; transition: transform .15s, opacity .2s;
+      opacity:0; visibility:hidden;
+    }
+    .back-to-top.show{ opacity:1; visibility:visible; transform: translateY(-6px); }
+
+    footer{ color:var(--muted); padding:2rem 0; text-align:center; border-top:1px solid rgba(255,255,255,0.02); margin-top:2rem; }
+
+    @media (max-width:992px){
+      .hero{ padding-top:6.2rem; }
+    }
+    @media (max-width:576px){
+      .profile-img{ max-width:160px; }
+    }
+    .portfolio-item{
+  position:relative;
+  overflow:hidden;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.03);
+  background: #060708;
+  cursor:pointer;
+  transition: transform .35s ease, box-shadow .25s;
+}
+.portfolio-item:hover{ transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+
+.portfolio-item img{
+  width:100%;
+  height:auto; /* height يتحدد حسب الصورة */
+  display:block;
+  object-fit:cover;
+}
+
+.project-meta{
+  position:absolute;
+  left:10px; bottom:10px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.45), rgba(0,0,0,0.20));
+  padding:6px 10px; border-radius:8px;
+  color:var(--text); font-size:.9rem; backdrop-filter: blur(6px);
+  border:1px solid rgba(255,255,255,0.03);
+}
+  </style>
+
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand text-white fw-bold" href="#">Mohamed Atallah</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="home" class="hero">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <div class="animate__animated animate__fadeInLeft" data-reveal>
+            <h1 class="title">Mohamed Atallah</h1>
+            <p class="lead">I’m a passionate <span style="color:var(--accent)">Graphic Designer</span> focused on <strong>branding</strong> and <strong>social media design</strong>. I bring bold concepts and clean visuals to help brands stand out online. With two years of hands-on experience, I design with the user and the brand strategy in mind.</p>
+            <div class="mt-4">
+              <a href="#portfolio" class="btn btn-outline-light me-2">View Work</a>
+              <a href="https://wa.me/201068083975" target="_blank" class="btn" style="background:var(--accent); color:#0a0b0c;">Message on WhatsApp</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 d-none d-lg-block">
+          <div class="profile-card animate__animated animate__zoomIn" data-reveal>
+            <img src="media/20250928_135221.png" alt="Mohamed Atallah" class="profile-img" onerror="this.style.display='none';">
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-5">
+    <div class="container">
+
+      <!-- ABOUT -->
+      <section id="about" class="mb-5">
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="section-card about animate__animated" data-reveal>
+              <h3 class="mb-3">About Me</h3>
+              <p>
+                I'm a 21-year-old graphic designer with two years of professional experience. I have worked on social media designs for high-school teachers, worked in the sports field (football), and created YouTube thumbnails. 
+                My work focuses on clear messaging, strong typographic choices, and practical visual systems that perform across digital platforms.
+              </p>
+              <p style="color:var(--muted); margin-top:.5rem;">
+                I enjoy collaborating with clients to turn ideas into memorable visuals and I keep learning new techniques to grow my craft.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="section-card animate__animated" data-reveal>
+              <h5 class="mb-3">Quick Facts</h5>
+              <ul class="list-unstyled" style="color:var(--muted); line-height:1.8;">
+                <li><strong>Location:</strong> Sharqia, Egypt</li>
+                <li><strong>Age:</strong> 21</li>
+                <li><strong>Experience:</strong> 2 years</li>
+                <li><strong>Focus:</strong> Branding & Social Media Design</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section id="skills" class="mb-5">
+        <h3 class="mb-4">Skills</h3>
+        <div class="row g-3">
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="skill animate__animated" data-reveal>
+              <i class="fa-solid fa-layer-group fa-2x"></i>
+              <div class="mt-2"><strong>Adobe Photoshop</strong></div>
+              <div style="color:var(--muted); font-size:.9rem;">Image editing & compositing</div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="skill animate__animated" data-reveal style="animation-delay:.05s;">
+              <i class="fa-solid fa-vector-square fa-2x"></i>
+              <div class="mt-2"><strong>Adobe Illustrator</strong></div>
+              <div style="color:var(--muted); font-size:.9rem;">Vector & logo design</div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="skill animate__animated" data-reveal style="animation-delay:.1s;">
+              <i class="fa-solid fa-book-open fa-2x"></i>
+              <div class="mt-2"><strong>Adobe InDesign</strong></div>
+              <div style="color:var(--muted); font-size:.9rem;">Layouts & print-ready files</div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="skill animate__animated" data-reveal style="animation-delay:.15s;">
+              <i class="fa-solid fa-bullhorn fa-2x"></i>
+              <div class="mt-2"><strong>Branding</strong></div>
+              <div style="color:var(--muted); font-size:.9rem;">Identity & visual systems</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PORTFOLIO -->
+     <section id="portfolio" class="mb-5">
+  <h3 class="mb-4">Portfolio</h3>
+  <p style="color:var(--muted);">All projects are visible here. Also see my <a href="https://www.behance.net/mohamedabdoua" target="_blank">Behance</a>.</p>
+
+  <div class="portfolio-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:12px; grid-auto-rows: auto;">
+    <!-- 20 مشروع -->
+    <div class="portfolio-item"><img src="media/Sec_1/Artboard 1.png" alt="Project 1"><div class="project-meta">Project 1</div></div>
+    <div class="portfolio-item"><img src="media/Sec_1/الاوائل_2.png" alt="Project 2"><div class="project-meta">Project 2</div></div>
+    <div class="portfolio-item"><img src="media/Sec_1/الممواعيد الجديدة.png" alt="Project 3"><div class="project-meta">Project 3</div></div>
+    <div class="portfolio-item"><img src="media/Sec_1/متراكمش.png" alt="Project 4"><div class="project-meta">Project 4</div></div>
+    <div class="portfolio-item"><img src="media/sec_2/1.png" alt="Project 5"><div class="project-meta">Project 5</div></div>
+    <div class="portfolio-item"><img src="media/sec_2/2.png" alt="Project 6"><div class="project-meta">Project 6</div></div>
+    <div class="portfolio-item"><img src="media/sec_2/الناموس.png" alt="Project 7"><div class="project-meta">Project 7</div></div>
+    <div class="portfolio-item"><img src="media/sec_2/c.png" alt="Project 8"><div class="project-meta">Project 8</div></div>
+    <div class="portfolio-item"><img src="media/sec_3/الدليفري ببلاش.png" alt="Project 9"><div class="project-meta">Project 9</div></div>
+    <div class="portfolio-item"><img src="media/sec_3/العاشر كلها شاورما.png" alt="Project 10"><div class="project-meta">Project 10</div></div>
+    <div class="portfolio-item"><img src="media/sec_3/العاشر من مضان_2.png" alt="Project 11"><div class="project-meta">Project 11</div></div>
+    <div class="portfolio-item"><img src="media/sec_3/العيد.png" alt="Project 12"><div class="project-meta">Project 12</div></div>
+    <div class="portfolio-item"><img src="media/Sec_4/الزعيم × الغابة البلد.png" alt="Project 13"><div class="project-meta">Project 13</div></div>
+    <div class="portfolio-item"><img src="media/Sec_4/بوبو_2.png" alt="Project 14"><div class="project-meta">Project 14</div></div>
+    <div class="portfolio-item"><img src="media/Sec_4/توقع3.png" alt="Project 15"><div class="project-meta">Project 15</div></div>
+    <div class="portfolio-item"><img src="media/Sec_4/عام هجري جديد.png" alt="Project 16"><div class="project-meta">Project 16</div></div>
+    <div class="portfolio-item"><img src="media/SEC_5/15152.png" alt="Project 17"><div class="project-meta">Project 17</div></div>
+    <div class="portfolio-item"><img src="media/SEC_5/5454.png" alt="Project 18"><div class="project-meta">Project 18</div></div>
+    <div class="portfolio-item"><img src="media/SEC_5/Magazine_Mockup_7.png" alt="Project 19"><div class="project-meta">Project 19</div></div>
+    <div class="portfolio-item"><img src="media/SEC_5/Magazine_Mockup_9.png" alt="Project 20"><div class="project-meta">Project 20</div></div>
+  </div>
+</section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="mb-5">
+        <h3 class="mb-4">Contact</h3>
+        <div class="section-card animate__animated" data-reveal>
+          <h5>Get in touch</h5>
+          <p style="color:var(--muted);">You can reach me through the icons below.</p>
+          <div class="mt-3 social-icons">
+            <a href="https://wa.me/201068083975" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:265moabdou@gmail.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
+            <a href="https://www.behance.net/mohamedabdoua" target="_blank" title="Behance"><i class="fa-brands fa-behance"></i></a>
+            <a href="https://www.facebook.com/mohamed.abdou.attalla?locale=ar_AR" target="_blank" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://www.instagram.com/attalla_26" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container">
+          <small>© <strong>Mohamed Atallah</strong> — Graphic Designer · All rights reserved.</small>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+  <!-- Back to top -->
+  <div class="back-to-top" id="backToTop" title="Back to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </div>
+
+  <!-- Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Reveal on scroll using IntersectionObserver + Animate.css classes
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const revealObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          const el = entry.target;
+          el.classList.add('animate__animated','animate__fadeInUp');
+          el.style.setProperty('--animate-duration','0.7s');
+          obs.unobserve(el);
+        }
+      });
+    }, {threshold:0.12});
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // Navbar link active on scroll
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href')));
+    window.addEventListener('scroll', () => {
+      const fromTop = window.scrollY + 140;
+      sections.forEach((sec, i) => {
+        if(!sec) return;
+        if(sec.offsetTop <= fromTop && sec.offsetTop + sec.offsetHeight > fromTop){
+          navLinks.forEach(l => l.classList.remove('active'));
+          navLinks[i].classList.add('active');
+        }
+      });
+    });
+
+    // Back to top show/hide & click
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if(window.scrollY > 400) backToTop.classList.add('show'); else backToTop.classList.remove('show');
+    });
+    backToTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+  </script>
+
+</body>
+</html>

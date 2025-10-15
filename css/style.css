@@ -1,0 +1,9 @@
+/* Modal image */
+.modal-body img{
+  max-width: 100%;       /* لا يتجاوز عرض المودال */
+  max-height: 80vh;      /* لا يتجاوز ارتفاع الشاشة */
+  margin: 0 auto;
+  display: block;
+  border-radius: 12px;
+  object-fit: contain;   /* يحافظ على الـ aspect ratio */
+}
